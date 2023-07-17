@@ -1,8 +1,13 @@
 package src;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Agenda {
+public class Agenda{
     private ArrayList<Contato> contatos = new ArrayList<Contato>();
     
     // Adiciona contato na agenda.
@@ -59,5 +64,39 @@ public class Agenda {
         String resp = sc.nextLine().toString().toLowerCase();
 
         return resp.equals("s");
+    }
+
+    public void salvar(String path){
+        try{
+            FileOutputStream output = new FileOutputStream(path);
+            ObjectOutputStream objOut = new ObjectOutputStream(output);
+
+            objOut.writeObject(this.contatos);
+
+            objOut.close();
+            output.close();
+
+            System.out.println("Agenda salva com sucesso.");
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void carregar(String path){
+        try{
+            FileInputStream input = new FileInputStream(path);
+            ObjectInputStream objIn = new ObjectInputStream(input);
+
+            for (Contato i: (ArrayList<Contato>) objIn.readObject()){
+                this.adicionar(i);
+            }
+
+            objIn.close();
+            input.close();
+
+            System.out.println("Agenda carregada com sucesso.");
+        } catch (IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
     }
 }

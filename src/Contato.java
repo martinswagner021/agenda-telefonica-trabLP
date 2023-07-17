@@ -1,6 +1,7 @@
 package src;
+import java.io.Serializable;
 
-public class Contato {
+public class Contato implements Serializable{
     String nome;
     int telefone;
     String endereco;
