@@ -1,6 +1,6 @@
 package src;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Scanner;
 
 public class Agenda {
     private ArrayList<Contato> contatos = new ArrayList<Contato>();
@@ -24,9 +24,12 @@ public class Agenda {
     public void alterar(Contato contato){
         Contato busca = this.buscar(contato.nome);
         if (busca != null){
-            busca.telefone = contato.telefone;
-            busca.endereco = contato.endereco;
-            busca.relacao = contato.relacao;
+            System.out.println("Alterar informacoes de " + busca.nome + "?");
+            if (confirmar()){
+                busca.telefone = contato.telefone;
+                if (contato.endereco != null) busca.endereco = contato.endereco;
+                if (contato.relacao != null) busca.relacao = contato.relacao;
+            }
         }
     }
     
@@ -34,17 +37,27 @@ public class Agenda {
     public void remover(String nome){
         Contato busca = this.buscar(nome);
         if (busca != null){
-            this.contatos.remove(busca);
+            System.out.println("Remover " + busca.nome + "?");
+            if (confirmar()) this.contatos.remove(busca);
         }
     }
 
     // Lista todos os contatos da agenda.
     public void listar(){
-        Iterator<Contato> it = this.contatos.iterator();
-        while (it.hasNext()){
-            it.next();
-            System.out.println("Nome: " + it.toString());
+        for (Contato contato: this.contatos){
+            System.out.println(contato.nome);
+            System.out.println(contato.telefone);
+            System.out.println(contato.endereco);
+            System.out.println(contato.relacao);
             System.out.println();
         }
+    }
+
+    private boolean confirmar(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Confirmar? (S/N)");
+        String resp = sc.nextLine().toString().toLowerCase();
+
+        return resp.equals("s");
     }
 }

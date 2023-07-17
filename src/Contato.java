@@ -12,6 +12,11 @@ public class Contato {
         this.endereco = endereco;
         this.relacao = relacao;
     }
-
+    public Contato(String nome, int numero){
+        this(nome, numero, null, null);
+    }
+    public Contato(String nome, int numero, String endereco){
+        this(nome, numero, endereco, null);
+    }
     
 }
